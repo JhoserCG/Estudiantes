@@ -21,15 +21,15 @@ public class EstudianteServiceimpl implements EstudianteService {
     @Override
 public Long createEstudiante(Estudiante estudiante) {
     try {
-        // Verificar que el vehículo asociado existe
+        
         if (estudiante.getInscripcion() == null || estudiante.getInscripcion().getIdInscripcion() == null) {
-            throw new IllegalArgumentException("El vehículo asociado no puede ser nulo.");
+            throw new IllegalArgumentException("No puede ser nulo.");
         }
 
         Estudiante savedEstudiante = estudianteRepository.save(estudiante);
         return savedEstudiante.getIdEstudiante();
     } catch (Exception e) {
-        System.err.println("Error al crear venta: " + e.getMessage());
+        System.err.println("Error al guardar: " + e.getMessage());
         return null;
     }
 }
@@ -42,11 +42,11 @@ public Long createEstudiante(Estudiante estudiante) {
                 estudianteActualizar.setIdEstudiante(idEstudiante); 
                 return estudianteRepository.save(estudianteActualizar); 
             } else {
-                System.err.println("Venta con ID " + idEstudiante + " no encontrada."); 
+                System.err.println(" ID  " + idEstudiante + " no encontrada."); 
                 return null;
             }
         } catch (Exception e) {
-            System.err.println("Error al actualizar venta: " + e.getMessage());
+            System.err.println("Error al actualizar datos: " + e.getMessage());
             return null;
         }
     }
@@ -58,10 +58,10 @@ public Long createEstudiante(Estudiante estudiante) {
             if (estudianteExistente.isPresent()) {
                 estudianteRepository.deleteById(idEstudiante); 
             } else {
-                System.err.println("Venta con ID " + idEstudiante + " no encontrada."); 
+                System.err.println("ID " + idEstudiante + " no encontrada."); 
             }
         } catch (Exception e) {
-            System.err.println("Error al eliminar venta: " + e.getMessage());
+            System.err.println("Error al eliminar estudiante: " + e.getMessage());
         }
     }
 }
