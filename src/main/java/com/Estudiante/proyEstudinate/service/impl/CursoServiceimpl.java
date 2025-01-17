@@ -38,15 +38,15 @@ public class CursoServiceimpl implements CursoService{
     @Override
     public Long createCurso(Curso curso) {
     try {
-        // Verificar que el vehículo asociado existe
+        // Verificar que el curso asociado existe
         if (curso.getInscripcion() == null || curso.getInscripcion().getIdInscripcion() == null) {
-            throw new IllegalArgumentException("El vehículo asociado no puede ser nulo.");
+            throw new IllegalArgumentException("El curso asociado no puede ser nulo.");
         }
 
         Curso savedCurso = modeloRepository.save(curso);
         return savedCurso.getIdCurso();
     } catch (Exception e) {
-        System.err.println("Error al crear venta: " + e.getMessage());
+        System.err.println("Error al crear: " + e.getMessage());
         return null;
     }
 }

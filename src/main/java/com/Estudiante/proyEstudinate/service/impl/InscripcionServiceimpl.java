@@ -24,7 +24,7 @@ public class InscripcionServiceimpl implements InscripcionService{
 	            Inscripcion savedInscripcion = inscripcionRepository.save(inscripcion);
 	            return savedInscripcion.getIdInscripcion();
 	        } catch (Exception e) {
-	            System.out.println("Error al crear vehículo: " + e.getMessage());
+	            System.out.println("Error al inscribir: " + e.getMessage());
 	            return null;
 	        }
 	    }
@@ -38,7 +38,7 @@ public class InscripcionServiceimpl implements InscripcionService{
 	            }
 	            return null;
 	        } catch (Exception e) {
-	            System.out.println("Error al actualizar vehículo: " + e.getMessage());
+	            System.out.println("Error al actualizar inscripcion: " + e.getMessage());
 	            return null;
 	        }
 	    }
@@ -50,7 +50,7 @@ public class InscripcionServiceimpl implements InscripcionService{
 	                inscripcionRepository.deleteById(idInscripcion);
 	            }
 	        } catch (Exception e) {
-	            System.out.println("Error al eliminar vehículo: " + e.getMessage());
+	            System.out.println("Error al eliminar: " + e.getMessage());
 	        }
 	    }
 
