@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
 public class CursoServiceimpl implements CursoService{
 
  @Autowired
-    private CursoRepository modeloRepository;
+    private CursoRepository cursoRepository;
 
     @Override 
     public List<Curso> findCursoAll() {
         List<Curso> responseCurso = new ArrayList<>();
-        List<Curso> cursos= modeloRepository.findAll(); 
+        List<Curso> cursos= cursoRepository.findAll(); 
         
         for (Curso curso : cursos) {
         	
@@ -32,8 +32,6 @@ public class CursoServiceimpl implements CursoService{
         
         return responseCurso;  
     }
- 
-
 
     @Override
     public Long createCurso(Curso curso) {
@@ -43,36 +41,39 @@ public class CursoServiceimpl implements CursoService{
             throw new IllegalArgumentException("El vehículo asociado no puede ser nulo.");
         }
 
-        Curso savedCurso = modeloRepository.save(curso);
+        Curso savedCurso = cursoRepository.save(curso);
         return savedCurso.getIdCurso();
     } catch (Exception e) {
         System.err.println("Error al crear venta: " + e.getMessage());
         return null;
     }
-}
-  
+} 
 
     @Override
-    public Curso actualizaCurso(Curso cursoActualizar, Long idCurso) {
-        Curso cursoEntity = new Curso();
-        cursoEntity.setIdCurso(idCurso);
-        cursoEntity.setNombre(cursoActualizar.getNombre());
-        cursoEntity.setHoras(cursoActualizar.getHoras());
+public Curso actualizaCurso(Curso cursoActualizar, Long idCurso) {
+    // Busca el curso existente en la base de datos
+    Curso cursoExistente = cursoRepository.findById(idCurso)
+            .orElseThrow(() -> new IllegalArgumentException("Curso no encontrado con el id: " + idCurso));
 
-        Curso cursoSaved = modeloRepository.save(cursoEntity);
-        Curso cursoActu = new Curso();
-        cursoActu.setIdCurso(cursoSaved.getIdCurso());
-        cursoActu.setNombre(cursoSaved.getNombre());
-        cursoActu.setHoras(cursoSaved.getHoras());
+    // Actualiza los campos del curso existente
+    cursoExistente.setNombre(cursoActualizar.getNombre());
+    cursoExistente.setHoras(cursoActualizar.getHoras());
 
-        return cursoActu;
+    // Si curso tiene relación con Inscripcion, actualiza la inscripción
+    if (cursoActualizar.getInscripcion() != null) {
+        cursoExistente.setInscripcion(cursoActualizar.getInscripcion());
     }
+
+    // Guarda y devuelve el curso actualizado
+    return cursoRepository.save(cursoExistente);
+}
+
 
 
     @Override
     public void eliminarCurso(Long idCurso) {
-        if (modeloRepository.existsById(idCurso)) {
-            modeloRepository.deleteById(idCurso); 
+        if (cursoRepository.existsById(idCurso)) {
+            cursoRepository.deleteById(idCurso); 
         }
     }
     
